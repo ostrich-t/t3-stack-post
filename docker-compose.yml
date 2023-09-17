@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
+      - MYSQL_DATABASE=dev
+      - MYSQL_USER=ostrich
+      - MYSQL_PASSWORD=password
+    networks:
+      - ostrich
+networks:
+  ostrich:
