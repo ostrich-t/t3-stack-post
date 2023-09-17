@@ -13,5 +13,8 @@ services:
       - MYSQL_PASSWORD=password
     networks:
       - ostrich
+    volumes:
+      - ./docker/mysql/sql:/docker-entrypoint-initdb.d
+
 networks:
   ostrich:
