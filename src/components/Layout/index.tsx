@@ -4,10 +4,14 @@ import React, { useState, type FC, type PropsWithChildren } from "react";
 import { Auth } from "../templates/Auth";
 import { Navbar } from "../shared/Navbar";
 import { Sidebar } from "../shared/Sidebar";
+import { usePostStore } from "~/store/post";
+import { PostDialog } from "../shared/dialogs/PostDialog";
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(true);
+
+  const openCreateDialog = usePostStore((state) => state.openCreateDialog);
 
   return (
     <>
@@ -18,18 +22,21 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
       </Head>
       <main className="min-h-screen" data-theme="light">
         {session ? (
-          <div className="flex">
-            {isOpen && <Sidebar />}
-            <div className="w-full">
-              <Navbar
-                onClickBar={() => setIsOpen(!isOpen)}
-                createProps={{
-                  onShortClick: () => console.log("short"),
-                }}
-              />
-              {children}
+          <>
+            <div className="flex">
+              {isOpen && <Sidebar />}
+              <div className="w-full">
+                <Navbar
+                  onClickBar={() => setIsOpen(!isOpen)}
+                  createProps={{
+                    onShortClick: openCreateDialog,
+                  }}
+                />
+                {children}
+              </div>
             </div>
-          </div>
+            <PostDialog />
+          </>
         ) : (
           <Auth />
         )}

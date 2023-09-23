@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { Bars3Icon } from "@heroicons/react/24/solid";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import React, { type FC } from "react";
 import Link from "next/link";
 
@@ -34,8 +33,8 @@ export const Navbar: FC<Props> = ({ onClickBar, createProps }) => {
         </div>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn m-1">
-            <PlusCircleIcon className="inline-block h-5 w-5 stroke-current" />
-            Create
+            <PencilSquareIcon className="inline-block h-5 w-5 stroke-current" />
+            Post
           </label>
           <ul
             tabIndex={0}
