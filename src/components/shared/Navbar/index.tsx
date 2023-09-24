@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Bars3Icon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import React, { type FC } from "react";
 import Link from "next/link";
+import { APP_NAME } from "~/common/constants/constants";
 
 interface Props {
   onClickBar: () => void;
@@ -20,7 +21,7 @@ export const Navbar: FC<Props> = ({ onClickBar, createProps }) => {
       </div>
       <div className="flex-1">
         <Link href={"/"} className="text-xl font-semibold normal-case">
-          Ostrich
+          {APP_NAME}
         </Link>
       </div>
       <div className="flex-none gap-2">
