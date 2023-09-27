@@ -4,7 +4,7 @@ import React, { useState, type FC, type PropsWithChildren } from "react";
 import { Auth } from "../templates/Auth";
 import { Navbar } from "../shared/Navbar";
 import { Sidebar } from "../shared/Sidebar";
-import { usePostStore } from "~/store/post";
+import { usePostStore } from "~/store/postStore";
 import { PostDialog } from "../shared/dialogs/PostDialog";
 import { APP_NAME } from "~/common/constants/constants";
 
