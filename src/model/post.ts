@@ -1,3 +1,5 @@
+import { type RouterOutputs } from "~/utils/api";
+
 export interface Post {
   id: number;
   content: string;
@@ -8,11 +10,31 @@ export interface Post {
   createdAt: Date;
   updatedAt: Date;
   user: {
-    id: number;
-    name: string;
-    avatar: string;
+    id: string;
+    name?: string;
+    image?: string;
   };
 }
+
+export const convertPost = (
+  post: RouterOutputs["post"]["createPost"],
+): Post => {
+  return {
+    id: post.id,
+    content: post.content,
+    totalLikes: post.totalLikes,
+    totalComments: post.totalComments,
+    isLiked: post.isLiked,
+    // isSaved: post.isSaved,
+    createdAt: new Date(post.createdAt),
+    updatedAt: new Date(post.updatedAt),
+    user: {
+      id: post.user.id,
+      name: post.user.name,
+      image: post.user.image,
+    },
+  };
+};
 
 export const postInitialState: Post = {
   id: 0,
@@ -24,9 +46,9 @@ export const postInitialState: Post = {
   createdAt: new Date(),
   updatedAt: new Date(),
   user: {
-    id: 0,
+    id: "aaa",
     name: "",
-    avatar: "",
+    image: "",
   },
 };
 
@@ -43,9 +65,9 @@ export const createPostListData = (number: number) => {
       createdAt: new Date(),
       updatedAt: new Date(),
       user: {
-        id: i,
+        id: i.toString(),
         name: "name",
-        avatar: "",
+        image: "",
       },
     });
   }
