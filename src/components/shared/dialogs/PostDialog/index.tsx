@@ -1,31 +1,50 @@
-import React, { type FC } from "react";
-import { usePostStore } from "~/store/post";
+import React, { useEffect, type FC } from "react";
+import { usePostStore } from "~/store/postStore";
 import { Dialog } from "../Dialog";
+import { api } from "~/utils/api";
+import { convertPost } from "~/model/post";
+import { toast } from "react-toastify";
+import { useUIStore } from "~/store/uiStore";
 
 export const PostDialog: FC = () => {
   const open = usePostStore((state) => state.createDialog);
+  const setLoading = useUIStore((state) => state.setLoading);
+  const pushPostData = usePostStore((state) => state.pushPostData);
+
+  const createPostMutation = api.post.createPost.useMutation({
+    onSuccess: (data) => {
+      pushPostData(convertPost(data));
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleClose = usePostStore((state) => state.closeCreateDialog);
-  const [text, setText] = React.useState("");
+  const [content, setContent] = React.useState("");
 
   const handlePost = () => {
-    console.log(text);
+    createPostMutation.mutate({ content: content });
     handleClose();
   };
 
+  useEffect(() => {
+    setLoading(createPostMutation.isLoading);
+  }, [createPostMutation.isLoading, setLoading]);
+
   return (
     <Dialog open={open} handleClose={handleClose}>
-      <h3 className="mb-2 text-lg font-bold">Short</h3>
+      <h3 className="content-lg mb-2 font-bold">Short</h3>
       <textarea
         className="textarea textarea-bordered h-32 w-full"
         placeholder="Wright something..."
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => setContent(e.target.value)}
       ></textarea>
-      <div className="mt-2 text-right">
+      <div className="content-right mt-2">
         <button
           className="btn btn-primary ml-auto"
           onClick={handlePost}
-          disabled={!text}
+          disabled={!content}
         >
           Post
         </button>
