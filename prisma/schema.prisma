@@ -17,7 +17,7 @@ datasource db {
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
-  userId            String
+  userId            String  @map("user_id")
   type              String
   provider          String
   providerAccountId String
@@ -36,7 +36,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
+  userId       String   @map("user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -45,7 +45,7 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
-  emailVerified DateTime?
+  emailVerified DateTime? @map("email_verified")
   image         String?
   accounts      Account[]
   sessions      Session[]
@@ -64,20 +64,21 @@ model VerificationToken {
 model Posts {
   id        Int      @id @default(autoincrement())
   content   String
-  user_id   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   Likes Likes[]
 }
 
 model Likes {
-  id      Int    @id @default(autoincrement())
-  user_id String
-  post_id Int
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  postId    Int      @map("post_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  user User  @relation(fields: [user_id], references: [id])
-  post Posts @relation(fields: [post_id], references: [id])
+  user User  @relation(fields: [userId], references: [id])
+  post Posts @relation(fields: [postId], references: [id])
 }
