@@ -15,7 +15,7 @@ export const PostCard: FC<Props> = ({ post }) => {
         <div className="avatar">
           <div className="mr-1 w-12 rounded-full">
             <Image
-              src={post.user.image ?? "/ostrich_admin.png"}
+              src={"/ostrich_admin.png"}
               alt="avatar"
               width={30}
               height={30}
