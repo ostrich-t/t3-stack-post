@@ -1,4 +1,4 @@
-import { type CreatePostInput } from "~/schema/post";
+import { type GetPostsInput, type CreatePostInput } from "~/schema/post";
 import { type IPostRepository } from "../domain/Post/IPostRepository";
 import { PostRepository } from "../infrastructure/PostRepository";
 import { PrismaClient } from "@prisma/client";
@@ -12,6 +12,17 @@ export class PostController {
   constructor() {
     this.postRepository = new PostRepository(new PrismaClient());
     this.useCase = new CreatePost(this.postRepository);
+  }
+
+  async getPosts(input: GetPostsInput) {
+    const results = await this.postRepository.getPosts({
+      skip: input.skip,
+      take: input.take,
+    });
+
+    return results.map((result) => {
+      return formatPost(result);
+    });
   }
 
   async createPost(input: CreatePostInput, sessionUser: SessionUser) {
