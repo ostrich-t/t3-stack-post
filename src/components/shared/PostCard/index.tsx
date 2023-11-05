@@ -30,7 +30,7 @@ export const PostCard: FC<Props> = ({ post }) => {
           </span>
         </div>
       </div>
-      <div>{post.content}</div>
+      <div className="whitespace-pre-wrap">{post.content}</div>
       <div className="flex space-x-3">
         <div>
           <span>{post.totalComments}</span>
